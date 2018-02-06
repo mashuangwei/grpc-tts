@@ -3,11 +3,10 @@ package com.tts.grpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
 import rokid.inner.Tts;
 import rokid.inner.TtsServiceGrpc;
-
 import java.io.*;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -18,7 +17,7 @@ import java.util.concurrent.CountDownLatch;
  * @author mashuangwei
  * @create 2018-01-29 13:54
  **/
-
+@Slf4j
 public class GrpcTts {
 
     public static void main(String args[]) {
@@ -103,7 +102,7 @@ public class GrpcTts {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.err.println("finished: " + streamObserver.getStatus());
+        log.info("finished: {}", streamObserver.getStatus());
         channel.shutdown();
         return streamObserver.getStatus();
     }
