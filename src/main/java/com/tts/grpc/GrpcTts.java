@@ -22,25 +22,14 @@ import java.util.concurrent.CountDownLatch;
 public class GrpcTts {
 
     public static void main(String args[]) {
-        asynTts();
-//        getAudio("172.31.8.3", 30000, "pcm", "e2e", "今天天气怎么样", 24000);
-//        asynGrpc("172.31.8.3", 30000, "pcm", "e2e", "今天天气怎么样", 24000);
+
+        //带有生成语音文件
+        getAudio("172.31.8.3", 30000, "pcm", "e2e", "今天天气怎么样", 24000);
+
+        //只接收语音流不保存
+        asynGrpc("172.31.8.3", 30000, "pcm", "e2e", "今天天气怎么样", 24000);
     }
 
-    public static void asynTts() {
-        String serverURI = "172.31.8.3";
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(serverURI, 30000).usePlaintext(true).build();
-        TtsServiceGrpc.TtsServiceBlockingStub ttsServiceBlockingStub = TtsServiceGrpc.newBlockingStub(channel);
-
-        Tts.TtsHeader ttsHeader = Tts.TtsHeader.newBuilder().setId(222).setCodec("PCM")
-                .setDeclaimer("e2e").build();
-        Tts.TtsRequest ttsRequest = Tts.TtsRequest.newBuilder().setHeader(ttsHeader).setText("我在唱歌").build();
-
-        Iterator<Tts.TtsResponse> response = ttsServiceBlockingStub.tts(ttsRequest);
-
-
-        System.err.println("finished");
-    }
 
     public static void getAudio(String ip, int port, String codec, String lang, String text, int sampleRate) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(ip, port).usePlaintext(true).build();
